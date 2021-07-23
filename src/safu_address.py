@@ -10,23 +10,44 @@ from rich.panel import Panel
 
 console = Console()
 
-
 class Scanner():
+    """Scanner class wrapping the `scan`function.
+    """
     def scan(self, target):
+        """Scan function used for minotoring the behaviour of the clipboard given
+        donation addresses.
+
+        Args:
+            target ([list]): 
+                target[0] -> [Name of the coin]\n
+                target[1] -> [Address of the coin]
+
+        Returns:
+            [list]: 
+                [0] -> [True is safe, False is device is infected.]\n
+                [1] -> [The data that replaced the initially copied address.]
+        """
         with Progress() as progress:
+            # Copy the address to the clipboard
             pyperclip.copy(target[1])
             console.print(
                 f'Copied the address [bold cyan]{target[1]}[/] to the clipboard.')
+            # Init the progress display
             scanCoin = progress.add_task(
                 f'[gray]Scanning for [bold]{target[0]} [/]hijacking...', total=5)
+            
+            # For every second, check if the clipboard has been modified & the copied address for chagnes.
             for i in range(5):
                 progress.update(scanCoin, advance=1)
                 data = pyperclip.paste()
+                # We exit if the copied address has changed.
                 if(data != target[1]):
                     progress.update(
                         scanCoin, description=f'Scanned [bold]{target[0]}[/]: [bold red] INFECTED[/].\n')
                     return False, data
                 time.sleep(1)
+                
+            # End of the scan
             progress.update(
                 scanCoin, description=f'Scanned [bold]{target[0]}[/]: [bold green] SAFE[/].\n')
         return True, target[1]
