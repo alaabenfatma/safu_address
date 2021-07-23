@@ -73,7 +73,7 @@ def init():
 
 def loadCoins():
     # Load the coins that are used for donations
-    f = open('../data/samples.csv', 'r')
+    f = open('data/samples.csv', 'r')
     contents = csv.reader(f, delimiter=',')
     coins = list(contents)[1:]
 
