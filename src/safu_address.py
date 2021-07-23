@@ -1,7 +1,6 @@
 import csv
 import time
 import pyperclip
-import difflib
 
 from rich.console import Console
 from rich.pretty import pprint
@@ -81,9 +80,9 @@ if __name__ == '__main__':
         for c in coins:
             results = scanner.scan(c)
             if(results[0] is False):
-                msg = f'[bold][!] Your computer may be infected, we copied the {c[0]} address [cyan]{c[1]}[/] but it got replaced by [red]{results[1]}[/] instead.'
-                infected = Panel(msg,title='[bold red]Infected')
+                msg = f'[bold][*] Your computer may be infected, we copied the {c[0]} address [cyan]{c[1]}[/] but it got replaced by [red]{results[1]}[/] instead.'
+                infected = Panel(msg, title='[bold red]Infected')
                 console.print(infected)
                 exit(1)
         console.print(Panel(
-            f'Your device seems to be [bold green]safe[/].\nYou can close the application now.\n[♥] Feel free to [bold green]donate[/] if this tool has helped you.',title='[bold]Results'))
+            f'Your device seems to be [bold green]safe[/].\nYou can close the application now.\n[♥] Feel free to [bold green]donate[/] if this tool has helped you.', title='[bold]Results'))
