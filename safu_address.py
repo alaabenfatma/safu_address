@@ -70,7 +70,7 @@ def init():
     console.print(f'[bold white]{title}\n')
     console.print(
         '[!] The addresses mentioned below are donation addresses. \
-        \nFeel free to[bold green] donate [/]if you think this tool has helped you.\n')
+        \nFeel free to [bold green]donate[/]if you think this tool has helped you.\n')
 
 
 def loadCoins():
@@ -114,4 +114,7 @@ if __name__ == '__main__':
                 console.print(infected)
                 exit(1)
         console.print(Panel(
-            f'Your device seems to be [bold green]safe[/].\nYou can close the application now.\n[♥] Feel free to [bold green]donate[/] if this tool has helped you.', title='[bold]Results'))
+            f'''Your device seems to be [bold green]safe[/].
+You can close the application now.\n
+[♥] Feel free to [bold green]donate[/] if this tool has helped you (https://github.com/alaabenfatma/safu_address)''', title='[bold]Results'))
+        pyperclip.copy('')
