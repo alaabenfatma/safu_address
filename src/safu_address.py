@@ -1,35 +1,40 @@
 import csv
 import time
 import pyperclip
+import difflib
 
 from rich.console import Console
 from rich.pretty import pprint
 from rich.progress import Progress
 from rich.table import Table
+from rich.panel import Panel
 
 console = Console()
 
 
 class Scanner():
     def scan(self, target):
-        steps = [
-            f'Copied the address [bold cyan]{target[1]}[/] to the clipboard.',
-            f'Monitoring the [bold]clipboard[/]...'
-        ]
         with Progress() as progress:
             pyperclip.copy(target[1])
-            console.print(steps[0])
+            console.print(
+                f'Copied the address [bold cyan]{target[1]}[/] to the clipboard.')
             scanCoin = progress.add_task(
-                f'[gray]Scanning for [bold]{target[0]} [/]hijacking...\n', total=5)
+                f'[gray]Scanning for [bold]{target[0]} [/]hijacking...', total=5)
             for i in range(5):
                 progress.update(scanCoin, advance=1)
                 data = pyperclip.paste()
                 if(data != target[1]):
+                    progress.update(
+                        scanCoin, description=f'Scanned [bold]{target[0]}[/]: [bold red] INFECTED[/].\n')
                     return False, data
                 time.sleep(1)
+            progress.update(
+                scanCoin, description=f'Scanned [bold]{target[0]}[/]: [bold green] SAFE[/].\n')
         return True, target[1]
 
+
 scanner = Scanner()
+
 
 def init():
     title = '''
@@ -76,9 +81,9 @@ if __name__ == '__main__':
         for c in coins:
             results = scanner.scan(c)
             if(results[0] is False):
-                console.print(f'[bold red][*] INFECTED.[/]')
-                console.print(
-                    f'[bold]Your computer may be infected, we copied the {c[0]} address [cyan]{c[1]}[/] but your clipboard replaced it with [red]{results[1]}[/] instead.\n')
+                msg = f'[bold][!] Your computer may be infected, we copied the {c[0]} address [cyan]{c[1]}[/] but it got replaced by [red]{results[1]}[/] instead.'
+                infected = Panel(msg,title='[bold red]Infected')
+                console.print(infected)
                 exit(1)
-        for c in coins:
-            console.print(f'[bold]{c[0]}: [green]SAFE[/].')
+        console.print(Panel(
+            f'Your device seems to be [bold green]safe[/].\nYou can close the application now.\n[♥] Feel free to [bold green]donate[/] if this tool has helped you.',title='[bold]Results'))
