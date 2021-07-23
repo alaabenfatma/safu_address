@@ -10,9 +10,11 @@ from rich.panel import Panel
 
 console = Console()
 
+
 class Scanner():
     """Scanner class wrapping the `scan`function.
     """
+
     def scan(self, target):
         """Scan function used for minotoring the behaviour of the clipboard given
         donation addresses.
@@ -35,7 +37,7 @@ class Scanner():
             # Init the progress display
             scanCoin = progress.add_task(
                 f'[gray]Scanning for [bold]{target[0]} [/]hijacking...', total=5)
-            
+
             # For every second, check if the clipboard has been modified & the copied address for chagnes.
             for i in range(5):
                 progress.update(scanCoin, advance=1)
