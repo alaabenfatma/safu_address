@@ -46,7 +46,7 @@ class Scanner():
                         scanCoin, description=f'Scanned [bold]{target[0]}[/]: [bold red] INFECTED[/].\n')
                     return False, data
                 time.sleep(1)
-                
+
             # End of the scan
             progress.update(
                 scanCoin, description=f'Scanned [bold]{target[0]}[/]: [bold green] SAFE[/].\n')
@@ -57,6 +57,7 @@ scanner = Scanner()
 
 
 def init():
+    # Greetings!
     title = '''
    _____       ____            ___       __    __                   
   / ___/____ _/ __/_  __      /   | ____/ /___/ /_______  __________
@@ -71,21 +72,26 @@ def init():
 
 
 def loadCoins():
+    # Load the coins that are used for donations
     f = open('../data/samples.csv', 'r')
     contents = csv.reader(f, delimiter=',')
     coins = list(contents)[1:]
+
+    # Create table
     table = Table(title="Loaded donations addresses", show_lines=True)
     table.add_column('Coin')
     table.add_column('Address')
     for c in coins:
         table.add_row(*c)
     console.print(table)
+
     return coins
 
 
 def askPermission():
     options = ['YES', 'NO', 'N', 'Y']
     response = ''
+    # Keep reading the user's input until he enters a valid one
     while response.upper() not in options:
         response = console.input(
             '[bold red][*] The scanner will delete everything you have copied before, continue? (Y/N)')
